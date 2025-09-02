@@ -1,6 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
-import { IAuthProvider, IUser } from "./user.interface";
+import { IAuthProvider, IUser, Role } from "./user.interface";
 import { User } from "./user.model";
 import bcrypt from 'bcryptjs'
 
@@ -36,10 +36,39 @@ const getAllUser = async() =>{
 }
 
 const updateUser = async (userId: string, payload : Partial<IUser> , decodedToken: JwtPayload) => {
+    const isUserExist = await User.findById(userId)
+    if(!isUserExist){
+        throw new Error('user not exsit')
+    }
 
+    if(userId !== decodedToken.userId && decodedToken.role !== Role.ADMIN && decodedToken.role !== Role.SUPER_ADMIN){
+        throw new Error('you are not right authorize vaiya')
+    }
+
+    if(payload.role){
+        if(decodedToken.role === Role.USER || decodedToken.role === Role.AGENT){
+            throw new Error('you are not right authorize to change role')
+        }
+        if(payload.role === Role.SUPER_ADMIN || decodedToken.role === Role.ADMIN){
+            throw new Error('you are not right authorize to change role')
+        }
+    }
+
+    console.log(userId, decodedToken.userId);
+    
+    
+
+    if(payload.password){
+        payload.password = await bcrypt.hash(payload.password, Number(envVars.BCRYPT_SALT_ROUND))
+    }
+
+    const newUpdateUser = await User.findByIdAndUpdate(userId, payload, {new: true, runValidators: true})
+
+    return newUpdateUser
 }
 
 export const UserService = {
     createUser,
-    getAllUser
+    getAllUser,
+    updateUser,
 }

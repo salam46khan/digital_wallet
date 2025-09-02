@@ -1,25 +1,46 @@
 import { NextFunction, Request, Response } from "express"
 import { catchAsync } from "../../utils/CatchAsync"
 import { UserService } from "./user.service"
+import { JwtPayload } from "jsonwebtoken"
+import { sendResponse } from "../../utils/sendResponse"
 
 
 const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = await UserService.createUser(req.body)
 
-    res.status(200).json({
+    sendResponse(res, {
         success: true,
-        message: "user create successfully",
-        data: user
+        statusCode: 200,
+        message: "User Created Successfully",
+        data: user,
     })
 })
 
 const getAllUser = catchAsync(async(req: Request, res: Response, next: NextFunction) =>{
     const result = await UserService.getAllUser()
 
-    res.status(200).json({
+    sendResponse(res, {
         success: true,
-        message: "get user successfully",
-        data: result
+        statusCode: 200,
+        message: "get User Successfully",
+        data: result,
+    })
+})
+
+const updateUser = catchAsync(async(req: Request, res: Response, next: NextFunction)=>{
+
+    const userId = req.params.id;
+    const verifyToken = req.user;
+    const payload = req.body;
+
+    const update =await UserService.updateUser(userId, payload, verifyToken as JwtPayload)
+
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "User update Successfully",
+        data: update
     })
 })
 
@@ -27,5 +48,6 @@ const getAllUser = catchAsync(async(req: Request, res: Response, next: NextFunct
 
 export const UserController = {
     createUser,
-    getAllUser
+    getAllUser,
+    updateUser
 }

@@ -1,4 +1,4 @@
-import { createUserToken } from "../../utils/userToken";
+import { createUserToken, getNewAccessTokenWithRefreshToken } from "../../utils/userToken";
 import { IUser } from "../user/user.interface"
 import { User } from "../user/user.model";
 import bcrypt from 'bcryptjs'
@@ -26,6 +26,14 @@ const credentialsLogin = async(payload: IUser) =>{
     }
 }
 
+const getNewAccessToken = async (refreshToken: string) => {
+    const newAccessToken = await getNewAccessTokenWithRefreshToken(refreshToken)
+    return { 
+        accessToken : newAccessToken
+    }
+}
+
 export const authService = {
-    credentialsLogin
+    credentialsLogin,
+    getNewAccessToken
 }
