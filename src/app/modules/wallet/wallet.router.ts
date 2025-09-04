@@ -11,3 +11,4 @@ WalletRouter.post("/send",checkAuth(...Object.values(Role)), WalletController.se
 WalletRouter.post('/cash-in', checkAuth(Role.AGENT), WalletController.cashIn)
 WalletRouter.post('/cash-out', checkAuth(...Object.values(Role)), WalletController.cashOut)
 WalletRouter.post('/update/:id', checkAuth(Role.ADMIN, Role.SUPER_ADMIN), WalletController.walletUpdate)
+

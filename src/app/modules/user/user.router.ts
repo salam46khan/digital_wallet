@@ -9,5 +9,5 @@ import { checkAuth } from "../../middleware/checkAuth";
 export const UserRouter = Router()
 
 UserRouter.post('/register', validateRequest(createUserZodSchema), UserController.createUser)
-UserRouter.get('/',checkAuth(Role.ADMIN, Role.SUPER_ADMIN), UserController.getAllUser)
+UserRouter.get('/my-transactions',checkAuth(...Object.values(Role)), UserController.getMyTransactions)
 UserRouter.patch('/:id', checkAuth(...Object.values(Role)), UserController.updateUser)

@@ -4,6 +4,7 @@ import { IAuthProvider, IUser, Role } from "./user.interface";
 import { User } from "./user.model";
 import bcrypt from 'bcryptjs'
 import { Wallet } from "../wallet/wallet.model";
+import { Transaction } from "../transaction/transaction.model";
 
 const createUser =async (payload: Partial<IUser>) => {
     const { email, password, ...rest} = payload;
@@ -32,11 +33,6 @@ const createUser =async (payload: Partial<IUser>) => {
     return user
 }
 
-const getAllUser = async() =>{
-    const users = await User.find()
-
-    return users
-}
 
 const updateUser = async (userId: string, payload : Partial<IUser> , decodedToken: JwtPayload) => {
     const isUserExist = await User.findById(userId)
@@ -57,9 +53,6 @@ const updateUser = async (userId: string, payload : Partial<IUser> , decodedToke
         }
     }
 
-    // console.log(userId, decodedToken.userId);
-    
-    
 
     if(payload.password){
         payload.password = await bcrypt.hash(payload.password, Number(envVars.BCRYPT_SALT_ROUND))
@@ -70,8 +63,17 @@ const updateUser = async (userId: string, payload : Partial<IUser> , decodedToke
     return newUpdateUser
 }
 
+const getMyTransactions = async(decodedToken: JwtPayload)=>{
+    // console.log(decodedToken);
+    const mywallet = await Wallet.findOne({userId: decodedToken.userId})
+    // console.log(mywallet);
+    const myTransactions = await Transaction.find({wallet: mywallet?._id})
+    
+    return myTransactions
+}
+
 export const UserService = {
     createUser,
-    getAllUser,
     updateUser,
+    getMyTransactions
 }

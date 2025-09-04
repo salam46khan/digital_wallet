@@ -15,17 +15,18 @@ const createUser = catchAsync(async (req: Request, res: Response, next: NextFunc
         data: user,
     })
 })
-
-const getAllUser = catchAsync(async(req: Request, res: Response, next: NextFunction) =>{
-    const result = await UserService.getAllUser()
+const getMyTransactions = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const verifyToken = req.user;
+    const myTransactions = await UserService.getMyTransactions(verifyToken as JwtPayload)
 
     sendResponse(res, {
         success: true,
         statusCode: 200,
-        message: "get User Successfully",
-        data: result,
+        message: "get my gransactions Successfully",
+        data: myTransactions,
     })
 })
+
 
 const updateUser = catchAsync(async(req: Request, res: Response, next: NextFunction)=>{
 
@@ -51,6 +52,6 @@ const updateUser = catchAsync(async(req: Request, res: Response, next: NextFunct
 
 export const UserController = {
     createUser,
-    getAllUser,
-    updateUser
+    updateUser,
+    getMyTransactions
 }
