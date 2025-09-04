@@ -3,6 +3,7 @@ import { envVars } from "../../config/env";
 import { IAuthProvider, IUser, Role } from "./user.interface";
 import { User } from "./user.model";
 import bcrypt from 'bcryptjs'
+import { Wallet } from "../wallet/wallet.model";
 
 const createUser =async (payload: Partial<IUser>) => {
     const { email, password, ...rest} = payload;
@@ -13,9 +14,7 @@ const createUser =async (payload: Partial<IUser>) => {
         throw new Error("user already exsict")
     }
 
-    // const hashPassword =await bcryptjs.hash(password as string, Number(envVars.BCRIPT_SALT_ROUND))
     const hashPassword = await bcrypt.hash(password as string, Number(envVars.BCRYPT_SALT_ROUND))
-console.log(hashPassword);
 
     const authProvider: IAuthProvider = {provider:"Credential", providerId: email as string}
 
@@ -25,6 +24,10 @@ console.log(hashPassword);
         password: hashPassword,
         ...rest
     })
+
+    await Wallet.create({
+        userId: user._id
+    });
 
     return user
 }
@@ -54,7 +57,7 @@ const updateUser = async (userId: string, payload : Partial<IUser> , decodedToke
         }
     }
 
-    console.log(userId, decodedToken.userId);
+    // console.log(userId, decodedToken.userId);
     
     
 

@@ -14,7 +14,7 @@ const credentialsLogin = async(payload: IUser) =>{
     if(!passwordMatch){
         throw new Error('Password does not match!')
     }
-    console.log("done");
+    // console.log("done");
     const {password: pass, ...rest} = isUserExist.toObject()
 
     const userToken = createUserToken(isUserExist)
