@@ -68,7 +68,7 @@ const sendMoney = async(payload: Partial<ISendMoney>, decodedToken: JwtPayload) 
     const Sender = await Wallet.findOne({ userId: decodedToken.userId });
     // console.log(Receiver, Sender);
 
-    if(Receiver?._id === Sender?._id) {
+    if(Receiver?.userId.toString() === Sender?.userId.toString()) {
         throw new Error("You cannot send money to yourself");
     }
     if (Receiver?.status === WalletStatus.BLOCKED || Sender?.status === WalletStatus.BLOCKED) {
@@ -113,7 +113,7 @@ const cashIn = async(payload: Partial<ICashIn>, decodedToken: JwtPayload)=>{
 
     // console.log(Receiver, Sender);
 
-    if(Receiver?._id === Sender?._id) {
+    if(Receiver?._id.toString() === Sender?._id.toString()) {
         throw new Error("You cannot send money to yourself");
     }
     if (Receiver?.status === WalletStatus.BLOCKED || Sender?.status === WalletStatus.BLOCKED) {
@@ -162,7 +162,7 @@ const cashOut = async(payload: Partial<ICashIn>, decodedToken: JwtPayload) =>{
     const Sender = await Wallet.findOne({ userId: decodedToken.userId });
 
     // console.log(Receiver, Sender, agent);
-    if(Receiver?._id === Sender?._id) {
+    if(Receiver?._id.toString() === Sender?._id.toString()) {
         throw new Error("You cannot send money to yourself");
     }
     if (Receiver?.status === WalletStatus.BLOCKED || Sender?.status === WalletStatus.BLOCKED) {
@@ -207,7 +207,7 @@ const walletUpdate = async(UserId:string, payload : Partial<IWallet>, decodedTok
     }
 
     const wallet = await Wallet.findOne({userId: UserId})
-    console.log(wallet);
+    // console.log(wallet);
     
     const newUpdateWallet = await Wallet.findByIdAndUpdate(wallet?._id, payload, {new: true, runValidators: true})
     
