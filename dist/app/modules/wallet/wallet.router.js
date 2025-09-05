@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WalletRouter = void 0;
+const express_1 = require("express");
+const wallet_controller_1 = require("./wallet.controller");
+const checkAuth_1 = require("../../middleware/checkAuth");
+const user_interface_1 = require("../user/user.interface");
+exports.WalletRouter = (0, express_1.Router)();
+exports.WalletRouter.post("/add", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), wallet_controller_1.WalletController.addMoney);
+exports.WalletRouter.post("/withdraw", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), wallet_controller_1.WalletController.withdrawMoney);
+exports.WalletRouter.post("/send", (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), wallet_controller_1.WalletController.sendMoney);
+exports.WalletRouter.post('/cash-in', (0, checkAuth_1.checkAuth)(user_interface_1.Role.AGENT), wallet_controller_1.WalletController.cashIn);
+exports.WalletRouter.post('/cash-out', (0, checkAuth_1.checkAuth)(...Object.values(user_interface_1.Role)), wallet_controller_1.WalletController.cashOut);
+exports.WalletRouter.post('/update/:id', (0, checkAuth_1.checkAuth)(user_interface_1.Role.ADMIN, user_interface_1.Role.SUPER_ADMIN), wallet_controller_1.WalletController.walletUpdate);

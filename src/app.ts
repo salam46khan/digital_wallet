@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 
 app.use(express.json())
 app.use(cookieParser())
+app.set("trust proxy", 1)
 app.use(cors())
 app.use("/api/v1", routes)
 
