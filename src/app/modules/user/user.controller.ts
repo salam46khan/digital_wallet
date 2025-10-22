@@ -48,10 +48,24 @@ const updateUser = catchAsync(async(req: Request, res: Response, next: NextFunct
     })
 })
 
+const getMe = catchAsync(async (req: Request, res: Response, next: NextFunction) =>{
+    const decodedToken = req.user as JwtPayload
+
+    const gettingMe = await UserService.getMe(decodedToken.userId)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "getting me Successfully",
+        data: gettingMe
+    })
+})
+
 
 
 export const UserController = {
     createUser,
     updateUser,
-    getMyTransactions
+    getMyTransactions,
+    getMe
 }

@@ -11,11 +11,12 @@ interface IenvVars {
     JWT_REFRESS_SECRET: string,
     JWT_REFRESS_EXPIRES: string,
     SUPER_ADMIN_EMAIL: string,
-    SUPER_ADMIN_PASSWORD: string
+    SUPER_ADMIN_PASSWORD: string,
+    FRONTEND_URL: string
 }
 
 const loadEnvVariables = (): IenvVars =>{
-    const requirdEnvVariable : string[] =["PORT", "DB_URL", "NODE_ENV", "BCRYPT_SALT_ROUND", "JWT_ACCESS_SECRET", "JWT_ACCESS_EXPIRES", "JWT_REFRESS_SECRET", "JWT_REFRESS_EXPIRES", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD"]
+    const requirdEnvVariable : string[] =["PORT", "DB_URL", "NODE_ENV", "BCRYPT_SALT_ROUND", "JWT_ACCESS_SECRET", "JWT_ACCESS_EXPIRES", "JWT_REFRESS_SECRET", "JWT_REFRESS_EXPIRES", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "FRONTEND_URL"]
 
     requirdEnvVariable.forEach(key =>{
         if(!process.env[key]){
@@ -34,6 +35,7 @@ const loadEnvVariables = (): IenvVars =>{
         JWT_REFRESS_EXPIRES: process.env.JWT_REFRESS_EXPIRES as string,
         SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
         SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+        FRONTEND_URL: process.env.FRONTEND_URL as string
     }
 }
 

@@ -72,8 +72,16 @@ const getMyTransactions = async(decodedToken: JwtPayload)=>{
     return myTransactions
 }
 
+const getMe = async (userId: string) =>{
+    const user = await User.findById(userId).select("-password");
+    return {
+        data: user
+    }
+}
+
 export const UserService = {
     createUser,
     updateUser,
-    getMyTransactions
+    getMyTransactions,
+    getMe
 }

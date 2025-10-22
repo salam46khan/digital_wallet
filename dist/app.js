@@ -21,6 +21,7 @@ const notFound_1 = __importDefault(require("./app/middleware/notFound"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+app.set("trust proxy", 1);
 app.use((0, cors_1.default)());
 app.use("/api/v1", route_1.routes);
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
