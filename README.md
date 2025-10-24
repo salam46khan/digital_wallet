@@ -2,9 +2,12 @@
 
 A secure, modular, and role-based **Digital Wallet System** backend API (similar to **Bkash** or **Nagad**) built with **Express.js** and **Mongoose**.  
 
-🔗 **Live Demo**: [Digital Wallet System](https://digital-wallet-system-gray.vercel.app/)  
-
 ---
+🔗 **Live Demo**: [Digital Wallet System](https://digital-wallet-system-gray.vercel.app/)  
+---
+🔗 **Video Explanation**: [Video](https://drive.google.com/file/d/1QlOOu4nop7rdql_DAPjTQEb3cokARZr5/view?usp=sharing)  
+---
+
 
 ## 🎯 Project Overview
 
